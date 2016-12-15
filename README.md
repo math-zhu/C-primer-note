@@ -98,6 +98,7 @@ int main(){
     }
     else {
         std::cerr << "no input" << std::endl;
+	return -1;
     }
     return 0;
 }
