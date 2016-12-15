@@ -10,4 +10,6 @@ int main(){
 - return -1 for wrong exits: after running the program, run
 `$ echo $?`.
 It outputs 255 as the return value. 
+- executing program (See 深入理解计算机原理)
+
 
