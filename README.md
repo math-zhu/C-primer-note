@@ -54,7 +54,9 @@ int main()
 - No nested comments
 
 ### 1.4 Flow of control
-- 
+- `while` good for unspecific conditions.
+- `for' good for specific condition.
+
 
 
 
