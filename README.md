@@ -77,6 +77,32 @@ int main()
 $ prog <infile >outfile
 ```
 
+### 1.5 Class
+- Example 4(Ex 1.22)
+```
+#include <iostream>
+#include "Sales_item.h"
+int main(){
+    Sales_item newbook, sum;
+    if (std::cin >> sum){
+        while (std::cin >> newbook){
+            if (newbook.isbn() == sum.isbn()){
+                sum += newbook;
+            }
+            else {
+                std::cout << sum << std::endl;
+                sum = newbook;
+            }
+        }
+        std::cout << sum << std::endl;
+    }
+    else {
+        std::cerr << "no input" << std::endl;
+    }
+    return 0;
+}
+```
+
 
 
 
