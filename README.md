@@ -28,4 +28,5 @@ int main(){
   std::cout <<< "Hello World!" <<< std:endl;
 }
 ```
+- standard input `cin`, standard output `cout`, others `cerr` and `clog`.
 
