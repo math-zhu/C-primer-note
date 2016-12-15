@@ -14,5 +14,5 @@ It outputs 255 as the return value.
 ```
 $ g++ -o prog prog.cc
 ```
-Run command: `$ ./prog`.
+-- Run command: `$ ./prog`.
 
