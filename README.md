@@ -8,6 +8,6 @@ int main(){
 }
 ```
 - return -1 for wrong exits: after running the program, run
-`$ echo $?`
-outputs 255 as the return value
+`$ echo $?`.
+It outputs 255 as the return value. 
 
