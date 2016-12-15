@@ -33,5 +33,9 @@ int main(){
 
 >Debugging print statements should always flush the stream. Otherwise, if the program crashes, output may be left in the buffer, leading to incorrect inferences about where the program crashes.
 
+### 1.3 Comments
+- Comments `//` or `/* */`.
+- No nested comments
+
 
 
