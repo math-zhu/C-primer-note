@@ -15,6 +15,7 @@ It outputs 255 as the return value.
 $ g++ -o prog prog.cc
 ```
 - Run command: ```$ ./prog```
+
 ### 1.2 I/O
 - C++ standard library: iostream. Two important types: istream and ostream.
 ```#include <iostream>```
