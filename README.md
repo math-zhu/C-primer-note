@@ -72,7 +72,7 @@ int main()
 }
 ```
 - we use ctrl-d for end of file.
-- using file redirection 
+- using file redirection to save time on I/O.
 ```
 $ prog <infile >outfile
 ```
