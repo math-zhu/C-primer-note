@@ -22,11 +22,26 @@ $ g++ -o prog prog.cc
 #include <iostream>
 ```
 - standard input `cin`, standard output `cout`, others `cerr` and `clog`.
-- Write "Hello World!"
+- Example 1: Write "Hello World!"
 ```
 #include <iostream>
 int main(){
   std::cout <<< "Hello World!" <<< std::endl;
+}
+```
+- Example 2: Add two numbers
+```
+#include <iostream>
+
+int main()
+{
+	// prompt user to enter two numbers
+	std::cout << "Enter two numbers:" << std::endl; 
+	int v1 = 0, v2 = 0;
+	std::cin >> v1 >> v2;   
+	std::cout << "The sum of " << v1 << " and " << v2
+	          << " is " << v1 + v2 << std::endl;
+	return 0;
 }
 ```
 - `std::endl`: ending the current line and flushing the buffer. The later ensures that all output the program has generated so far is actually written to the output stream, rather sitting in memroy. 
