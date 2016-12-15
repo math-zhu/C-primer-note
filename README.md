@@ -54,6 +54,54 @@ int main()
 ### 1.4 Flow of control
 - `while` good for unspecific conditions.
 - `for` good for specific condition.
+- Example 3: Reading an unknown number of inputs
+```
+#include <iostream>
+int main()
+{
+    	int sum = 0, val = 0;
+    	// keep executing the while as long as val is less than or equal to 10
+    	while (std::cin >> val) {
+        	sum += val;  // assigns sum + val to sum
+    	}
+    	std::cout << "Sum is " << sum << std::endl;
+	return 0;
+}
+```
+- we use ctrl-d for end of file.
+- using file redirection to save time on I/O.
+```
+$ prog <infile >outfile
+```
+
+### 1.5 Class
+- Example 4(Ex 1.22)
+```
+#include <iostream>
+#include "Sales_item.h"
+int main(){
+    Sales_item newbook, sum;
+    if (std::cin >> sum){
+        while (std::cin >> newbook){
+            if (newbook.isbn() == sum.isbn()){
+                sum += newbook;
+            }
+            else {
+                std::cout << sum << std::endl;
+                sum = newbook;
+            }
+        }
+        std::cout << sum << std::endl;
+    }
+    else {
+        std::cerr << "no input" << std::endl;
+	return -1;
+    }
+    return 0;
+}
+```
+- Difference between cout and cerr: use cerr for error messages. Use cout for actual output. cout is buffered, cerr is not, so cout should be faster in most cases. (Although if you really care about speed, the C output functions such as printf tend to be a lot faster than cout/cerr).
+
 
 
 
