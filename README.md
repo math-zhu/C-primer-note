@@ -21,12 +21,16 @@ $ g++ -o prog prog.cc
 ```
 #include <iostream>
 ```
+- standard input `cin`, standard output `cout`, others `cerr` and `clog`.
 - Write "Hello World!"
 ```
 #include <iostream>
 int main(){
-  std::cout <<< "Hello World!" <<< std:endl;
+  std::cout <<< "Hello World!" <<< std::endl;
 }
 ```
-- standard input `cin`, standard output `cout`, others `cerr` and `clog`.
+- `std::endl`: ending the current line and flushing the buffer. The later ensures that all output the program has generated so far is actually written to the output stream, rather sitting in memroy. 
+< Debugging print statements should always flush the stream. Otherwise, if the program crashes, output may be left in the buffer, leading to incorrect inferences about where the program crashes.
+
+
 
