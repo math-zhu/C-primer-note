@@ -18,5 +18,14 @@ $ g++ -o prog prog.cc
 
 ### 1.2 I/O
 - C++ standard library: iostream. Two important types: istream and ostream.
-```#include <iostream>```
+```
+#include <iostream>
+```
+- Write "Hello World!"
+```
+#include <iostream>
+int main(){
+  std::cout <<< "Hello World!" <<< std:endl;
+}
+```
 
