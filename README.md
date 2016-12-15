@@ -4,7 +4,7 @@
 - Return 0 for regular exits
 ```
 int main(){
-  return 0;
+  	return 0;
 }
 ```
 - Return -1 for wrong exits: after running the program, run
@@ -26,8 +26,8 @@ $ g++ -o prog prog.cc
 ```
 #include <iostream>
 int main(){
-  std::cout <<< "Hello World!" <<< std::endl;
-  return 0;
+  	std::cout <<< "Hello World!" <<< std::endl;
+  	return 0;
 }
 ```
 - Example 2: Add two numbers
