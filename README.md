@@ -18,9 +18,7 @@ $ g++ -o prog prog.cc
 
 ### 1.2 I/O
 - C++ standard library: iostream. Two important types: istream and ostream. 
-```
-#include <iostream>
-```
+```#include <iostream>```
 - standard input `cin`, standard output `cout`, others `cerr` and `clog`. For `cin` and `cout`, use `>>` or `<<` for the right direction.
 - Example 1: Write "Hello World!"
 ```
@@ -30,10 +28,10 @@ int main(){
   	return 0;
 }
 ```
+
 - Example 2: Add two numbers
 ```
 #include <iostream>
-
 int main()
 {
 	// prompt user to enter two numbers
@@ -55,12 +53,7 @@ int main()
 
 ### 1.4 Flow of control
 - `while` good for unspecific conditions.
-<<<<<<< Updated upstream
 - `for` good for specific condition.
-=======
-- `for' good for specific condition.
-- good for bah
->>>>>>> Stashed changes
 
 
 
