@@ -62,7 +62,7 @@ int main()
 
 int main()
 {
-    	int sum = 0, val = 1;
+    	int sum = 0, val = 0;
     	// keep executing the while as long as val is less than or equal to 10
     	while (std::cin >> val) {
         	sum += val;  // assigns sum + val to sum
