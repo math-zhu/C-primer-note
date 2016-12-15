@@ -17,11 +17,11 @@ $ g++ -o prog prog.cc
 - Run command: ```$ ./prog```
 
 ### 1.2 I/O
-- C++ standard library: iostream. Two important types: istream and ostream.
+- C++ standard library: iostream. Two important types: istream and ostream. 
 ```
 #include <iostream>
 ```
-- standard input `cin`, standard output `cout`, others `cerr` and `clog`.
+- standard input `cin`, standard output `cout`, others `cerr` and `clog`. For `cin` and `cout`, use `>>` or `<<` for the right direction.
 - Example 1: Write "Hello World!"
 ```
 #include <iostream>
