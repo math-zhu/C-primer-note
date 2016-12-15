@@ -103,6 +103,7 @@ int main(){
     return 0;
 }
 ```
+- Difference between cout and cerr: use cerr for error messages. Use cout for actual output. cout is buffered, cerr is not, so cout should be faster in most cases. (Although if you really care about speed, the C output functions such as printf tend to be a lot faster than cout/cerr).
 
 
 
