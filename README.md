@@ -7,4 +7,6 @@ int main(){
   return 0;
 }
 ```
-- return -1 for wrong exits 
+- return -1 for wrong exits: after running the program, run
+`$ echo $?'
+
