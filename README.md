@@ -71,6 +71,11 @@ int main()
 	return 0;
 }
 ```
+- we use ctrl-d for end of file.
+- using file redirection 
+```
+$ prog <infile >outfile
+```
 
 
 
