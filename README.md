@@ -10,8 +10,9 @@ int main(){
 - Return -1 for wrong exits: after running the program, run
 `$ echo $?`.
 It outputs 255 as the return value. 
-- Executing program (See 深入理解计算机原理). Command:
+- Executing program (See 深入理解计算机原理). Compile command:
 ```
 $ g++ -o prog prog.cc
 ```
+Run command: `$ ./prog`.
 
