@@ -270,6 +270,10 @@ int main()
 	return 0;
 }
 ```
+- Here the key is the bool value 
+```
+(std::cin >> sale.bookNo >> sale.units_sold >> price)
+```
 
 ## Chapter 3 Strings, Vectors and Arrays
 
