@@ -123,7 +123,9 @@ int main(){
 
 ### 2.3 References and pointers
 - reference: alias
-```int val = 1, &value = val ```
+```
+int val = 1, &value = val 
+```
 - initializer must be an object with the right type
 ``` 
 int &ref = 10; // error: RHS must be an object
