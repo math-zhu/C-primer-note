@@ -130,7 +130,8 @@ int val = 1, &value = val
 ``` 
 int &ref = 10; // error: RHS must be an object
 int val =10;
-double &r = ref; // error: RHS different type```
+double &r = ref; // error: RHS different type
+```
 - Pointers
 ``` 
 int val = 1;
