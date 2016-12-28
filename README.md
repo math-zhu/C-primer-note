@@ -276,4 +276,135 @@ int main()
 ```
 
 ## Chapter 3 Strings, Vectors and Arrays
-
+### 3.1 Using declaration
+- A `using` declaration lets us use a name from a name space without qualifying the name with the name with a `namespace::` prefix.
+```
+using std::cin;
+```
+- A separate `using` declaration is required for each name.
+```
+using std::cin;
+using std::cout;
+using std::endl;
+```
+### 3.2 `string` type
+- A `string` os a variable-length sequence of characters.
+```
+#include <string>
+using std::string;
+```
+- Initialization of strings
+```
+string s1; // default initialization is the emtpy string;
+string s2 = "hello";
+string s3(10,'a');
+```
+- read a string: stops at a whitespace
+```
+string s; 
+cin >> s; // read a whitespace-separated string into s
+cout << s << endl;
+```
+- `getline`: stops at enter
+```
+string line;
+while (getline(cin, line))
+	cout << line << endl;
+```
+- `s.empty()` returns a bool value
+- `s.size()` returns `string::size_type`, which is an UNASSIGNED type.
+```
+auto len = s.size();
+```
+- `+` for string addition. Cannot add two literals. One of them must be a string type.
+- Ex 3.5: combine a few words into a large string
+```
+int main(){
+          string total;
+          string temp;
+          while (cin >> temp)
+                  total += temp;
+          cout << total << endl;
+          return 0;
+}
+```
+- Processing every character without change
+```
+for (auto c : str)
+```
+- Processing every character with change
+```
+for (auto &c : str)
+```
+- processing some character
+```
+s[i] // i starts from 0 to s.size()-1
+```
+- Ex 3.6 delete all punctures
+```
+#include <iostream>
+#include <string>
+using std::string;
+int main(){
+         string str;
+         getline(std::cin,str);
+         for (auto c:str)
+                 if (!ispunct(c))
+                         std::cout << c;
+         std::cout << std::endl;
+         return 0;
+ }
+```
+### 3.3 `Vector` type
+- A `vector` is a *class template*. Basic use
+```
+#include <vector>
+using std::vector;
+vector<string> svec;
+vector<int> ivec;
+vector<Sales_item> s_vec;
+vector<vector<int>> file;
+```
+- initialization
+```
+vector<string> ivec = {"ab","cd","ef"};
+vector<string> ivecc(ivec);
+vector<int> ivect(10, -2);
+vector<string> svec(10); // ten elements
+```
+- adding elements to a vector, `push_back` takes a value and pushes it as a new last element onto the back of the vector  
+```
+ivect.pushback(i);
+```
+- hitogram algorithm
+```
+vector<unsigned> scorecnt(11,0);
+unsigned grade;
+while (cin >> grade)
+	++scorecnt[grade/10]; // division of two integers returns integral part
+```
+- subscipt does not add elements
+```
+vector<int> a;
+a[0] = 0; // error: use push_back only
+```
+- read and print a vector
+```
+#include <iostream>
+#include <vector>
+using std::vector;
+int main(){
+vector<int> ivec;
+int t;
+while (std::cin >> t){
+	ivec.push_back(t);
+}
+for (auto u:ivec){
+	std::cout << u << ' ';
+}
+std::cout << std::endl;
+return 0;
+}
+``` 
+### 3.4 Iterators
+- 
