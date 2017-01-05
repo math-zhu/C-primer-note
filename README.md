@@ -14,11 +14,16 @@ It outputs 255 as the return value.
 ```
 $ g++ -o prog prog.cc
 ```
-- Run command: ```$ ./prog```
+- Run command: 
+```
+$ ./prog
+```
 
 ### 1.2 I/O
 - C++ standard library: iostream. Two important types: istream and ostream. 
-```#include <iostream>```
+```
+#include <iostream>
+```
 - standard input `cin`, standard output `cout`, others `cerr` and `clog`. For `cin` and `cout`, use `>>` or `<<` for the right direction.
 - Example 1: Write "Hello World!"
 ```
@@ -28,7 +33,6 @@ int main(){
   	return 0;
 }
 ```
-
 - Example 2: Add two numbers
 ```
 #include <iostream>
@@ -44,7 +48,6 @@ int main()
 }
 ```
 - `std::endl`: ending the current line and flushing the buffer. The later ensures that all output the program has generated so far is actually written to the output stream, rather sitting in memory. 
-
 >Debugging print statements should always flush the stream. Otherwise, if the program crashes, output may be left in the buffer, leading to incorrect inferences about where the program crashes.
 
 ### 1.3 Comments
@@ -103,6 +106,7 @@ int main(){
 - Difference between cout and cerr: use cerr for error messages. Use cout for actual output. cout is buffered, cerr is not, so cout should be faster in most cases. (Although if you really care about speed, the C output functions such as printf tend to be a lot faster than cout/cerr).
 
 ## Chapter 2 Variables
+
 ### 2.1 Primitive Build-in types
 - byte = 8 bits. a word = 32 or 64 bytes. 
 - int 64 bytes on my computer.
@@ -119,7 +123,9 @@ int main(){
 - Initialization is not assignment.
 - Default initialization: variables defined outside any function body are initialized to zero. With one exception, variables of build-in types defined inside a function are uninitialized.
 - Declaration
-``` extern int i;```
+``` 
+extern int i;
+```
 
 ### 2.3 References and pointers
 - reference: alias
@@ -276,6 +282,8 @@ int main()
 ```
 
 ## Chapter 3 Strings, Vectors and Arrays
+
+
 ### 3.1 Using declaration
 - A `using` declaration lets us use a name from a name space without qualifying the name with the name with a `namespace::` prefix.
 ```
@@ -287,7 +295,9 @@ using std::cin;
 using std::cout;
 using std::endl;
 ```
+
 ### 3.2 `string` type
+ 
 - A `string` os a variable-length sequence of characters.
 ```
 #include <string>
@@ -355,8 +365,10 @@ int main(){
          return 0;
  }
 ```
+
 ### 3.3 `Vector` type
-- A `vector` is a *class template*. Basic use
+
+- A `vector` is a class template. Basic use
 ```
 #include <vector>
 using std::vector;
@@ -372,7 +384,7 @@ vector<string> ivecc(ivec);
 vector<int> ivect(10, -2);
 vector<string> svec(10); // ten elements
 ```
-- adding elements to a vector, `push_back` takes a value and pushes it as a new last element onto the back of the vector  
+- adding elements to a vector, `push_back` takes a value and pushes it as a new last element onto the back of the vector
 ```
 ivect.pushback(i);
 ```
@@ -405,6 +417,218 @@ for (auto u:ivec){
 std::cout << std::endl;
 return 0;
 }
-``` 
+```
+
 ### 3.4 Iterators
-- 
+- `iterator` is the index of a `vector`.
+```
+vector<int> v;
+const vector<int> cv;
+auto it1 = v.begin();	// it1 has type vector<int>::iterator
+auto it2 = v.end();	// it2 has type vector<int>::const_iterator
+```  
+- `iterator` has type `vector<..>::iterator`
+- using `iterator` to go through a string
+```
+string s = "hello world!";
+for (auto index = s.begin(); index != s.end(); ++index){
+...
+}
+```
+- binary search code
+```
+#include <iostream>
+#include <vector>
+using std::cin;
+using std::cout;
+using std::endl;
+using std::vector;
+int main(){
+vector<int> a = {1,3,5,6,7,19,22,25,77,101};
+int goal;
+while (true){
+	cout << "\ninput a number you want to search: "<< endl;
+if (!(cin >> goal)) {
+	break;
+}
+else {
+	auto beg = a.begin(), end = a.end();
+	auto mid = beg + (end - beg)/2;
+	while (true) {
+		if (goal == *mid) {
+			cout << "find the number at index " << mid-a.begin()+1 << endl;
+			break;
+		}
+		else if (mid == end) {
+			cout << "not found" << endl;
+			break; 
+		}
+		else if (goal < *mid) {
+			end = mid;
+		}	
+		else{ 
+			beg = mid + 1;}
+		mid = beg + (end - beg)/2;
+	}
+}
+}
+return 0;
+}
+``` 
+- Remarks:
+a. `vector` initialization uses C++11. Compliling using
+```
+g++ -std=c++11 b.cc -o b
+```
+b. mid points get rounddown in C++. That explains
+```
+end = mid // vs
+beg = mid +1
+```
+c. cannot print `iterator` itself. To print the index, we may use
+```
+mid - a.begin() + 1;
+```
+d. The statement `cin >> goal` returns false if type unmatched.
+- DO NOT add two iterators. 
+
+### 3.5 Arrays
+- initialization
+```
+int arr[num]; // num here must be a constant 
+```
+- do not copy array to initialize another array, bacause arrays are more like pointers.
+```
+int a[]=arr;
+```
+- Array declarations: type modifiers bind right to left.
+```
+int *p[10]; 	// p is an array of ten pointers
+int (*p)[10];	// p is a pointer of an array
+int (&r)[10] = arr; 	// ref for an array
+```
+- The following explain the close relation between pointers and array
+```
+int num[] = {1, 2, 3};
+int *p = &num[0];
+int *p = num;
+auto p1(num);	// again, an integer pointer
+int *q = num + 2; 	// points at 3
+int *beg = begin(num);
+int *end = end(num);
+```
+- the type of `begin(num)` is `ptrdiff_t`. Use `auto` better.
+- array allows negative subscript, different than vector.
+- use `size_t` to script the array
+
+### 3.6 Multidimensional array
+- Two dimensional multiarray is an array of arrays. Outer array gives rows. Inner give columns.
+- Range for multidimensional arrays
+```
+for (auto &row:ia)
+	for (auto &col:row){
+		col = cnt;
+		++cnt;
+	}
+```
+- To use a multidimensional array in a range `for`, the loop control variable for all but the innermost array must be references. The reason is that 
+```
+auto row:ia
+```
+will give int pointers instead of an array.
+- Visit the array with pointers
+```
+for (auto p = begin(ia); p != end(ia); ++p){	
+	for (auto q = begin(*p); q != end(*p); ++q) {
+		cout << *q << ' ';
+	}
+	cout << endl;
+}
+```
+
+## Chapter 4 Expressions
+- Use `++i` rather than `i++`
+- `cout << *p++ << endl;` means that
+```
+cout << *p << endl;
+++p;
+```
+- Member access operator
+ ```
+string s = "hello", *p = &s;
+auto n = s.size();
+n = (*p).size();
+n = p->size(); 	// equivalent to the above statement
+ ```
+- Conditional operator
+    ```
+    string finalgrade = (grade > 90) ? "fail" : "pass"
+    ```
+when `cout`, the whole statement needs ().
+- expilicit conversion
+    ```
+    int i,j;
+    double slope = static_cast<double>(j)/i;
+    void *p = &d;
+    double *dp = static_cast<double*>(p);
+    ```
+
+## Chapter 5 
+- null statement
+    ```
+    ;
+    ```
+- Conditional statement
+    ```
+    if (...){
+    }
+    else if (){...}
+    else 
+    ```
+- switch
+    ```
+    switch () {
+    case A: ...;break;
+    case B: ...;break;
+    }
+    ```
+- Do not forget `break` in swith
+- use `default:` label for all other cases
+- do-while statement ends with `;`
+```do {
+} while ();
+```
+- `throw` statement
+    ```
+    if (item1.isbn() != item2.isbn())
+    	throw runtime_error("Data must refer to the same isbn")
+    ```
+ here `runtime_error` lives in `stdexcept` header
+- `try` statement for exceptional case
+```
+while (cin >> item1 >> item2) {
+	    try {
+	        // execute code that will add the two Sales_items
+	        // if the addition fails, the code throws a runtime_error exception
+	        // first check that the data are for the same item 
+	        if (item1.isbn() != item2.isbn())
+	            throw runtime_error("Data must refer to same ISBN");
+	
+	        // if we're still here, the ISBNs are the same
+	        cout << item1 + item2 << endl;
+	    } catch (runtime_error err) {
+	        // remind the user that the ISBNs must match 
+			// and prompt for another pair
+	        cout << err.what() 
+	             << "\nTry Again?  Enter y or n" << endl;
+	        char c;
+	        cin >> c;
+	        if (!cin || c == 'n')
+	            break;      // break out of the while loop
+	    }  // ends the catch clause
+	}  // ends the while loop
+	
+	return 0;   // indicate success
+```
+- Warning: writing exceprtional safe code is hard!
+
