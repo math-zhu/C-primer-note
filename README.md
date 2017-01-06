@@ -367,7 +367,6 @@ int main(){
 ```
 
 ### 3.3 `Vector` type
-
 - A `vector` is a class template. Basic use
 ```
 #include <vector>
@@ -565,7 +564,7 @@ n = p->size(); 	// equivalent to the above statement
     string finalgrade = (grade > 90) ? "fail" : "pass"
     ```
 when `cout`, the whole statement needs ().
-- expilicit conversion
+- explicit conversion
     ```
     int i,j;
     double slope = static_cast<double>(j)/i;
@@ -592,7 +591,7 @@ when `cout`, the whole statement needs ().
     case B: ...;break;
     }
     ```
-- Do not forget `break` in swith
+- Do not forget `break` in switch
 - use `default:` label for all other cases
 - do-while statement ends with `;`
 ```do {
@@ -630,5 +629,140 @@ while (cin >> item1 >> item2) {
 	
 	return 0;   // indicate success
 ```
-- Warning: writing exceprtional safe code is hard!
+- Warning: writing exceptional safe code is hard!
+
+## Chapter 6 Functions
+### 6.1 Functions
+- functions can be overloaded, meaning that the same name may refer to different functions.
+- *arguments* are the initializers for a function's parameters. The first argument initializes the first parameter, so on.
+- The type of each argument must match the corresponding parameter. But we allow certain conversion of types same as when initializing.
+    ```
+    factorial(3.14); // same as factorial(3)
+    ```
+- Parameters and variables defined inside a function body are referred as "local variables".
+- Parameters are automatic objects. Storage for parameters is allocated when the function begins. Parameters are defined in the scope of the function body. Hence they are destroyed when the function terminates.
+- Local static object: a local variable whose lifetime continues across calls to the function. 
+    ```
+    void f(){
+    static int a;
+    }
+    ```
+- function declaration: we can use header files for function declarations.
+    ```
+    void f();
+    ```
+- separate compilation: TBA
+
+### 6.2 Argument passing
+- passing arguments by value: when we initialize a nonreference type variable, the value of the initializer is copied. Change made to the variable have no effect on the argument.
+- Pointer parameters
+    ```
+    void reset(int *p){
+    	*ip = 0; 	// pointer's pointed value changes
+	ip =0;		// ip has no effect on argument
+    }
+    ```
+But in C++, usually we use the reference type instead of pointers.
+- passing arguments by reference 
+    ```
+    void reset(int &i){
+    	i = 0;
+    }
+    ```
+- It can be inefficient to copy objects of large class types. So we use reference for parameters of functions.
+- Reference parameters that are not changed inside a function should be references to `const`.
+- When copy an argument to initialize a parameter, top level `const` are ignored. Just like the initialization process.
+- use reference to `const` when possible
+- array parameters
+    ```
+    void print(const int*);
+    void print(const int[]);
+    void print(const int[10]);  	// for above for function declarations
+    int i = 0, j[2] = { 0,1 };
+    print(&i);
+    print(j);				// both ok if the parameter is int *
+    ```
+- print an array: two ways via functions
+    ```
+    void print(const char *cp){
+    	if (cp)
+		while (*cp)
+			cout << *cp++;
+    }
+    ```
+    ```
+    void print(const int *beg, const int *end){
+    	while (beg != end)
+		cout << *beg++ << endl;
+    }
+    ```
+- array reference parameter
+    ```
+    void print(int (&arr)[10]){		// (&arr) is a must, we cannot have an array of 10 references
+    	for (auto i : arr)
+		cout << elem << endl;
+    }
+    ```
+- multidimensional array as parameter
+    ```
+    void print (int (*parr)[10], int Rowsize){...}
+    ```
+- `main` function
+    ```
+    int main(int argc, char *argv[]){...}
+    ```
+where `argc` is the argument count and `argv` is an array of pointers to C-style character strings. We may use 
+
+    ```
+    int main(int argc, char **argv){...}
+    ```
+- `argv[0]` is the program's name and optional arguments begin in `argv[1]`
+- Functions with varying parameters: use `initializer_list`
+    ```
+    initializer_list<string> ls;
+    initializer_list<int> li;
+    void error_meg(initializer_list<string> il){
+    	for (auto beg = il.begin(); beg != il.end(); ++beg)
+		cout << *beg << " ";
+	cout << endl;
+    }
+    ```
+- When we pass a sequence of values to an `initializer_list` parameter, we must enclose the sequence in curly braces
+    ```
+    if (expected != acutal)
+    	error_msg({"functionX", expected, actual});
+    ```
+
+### 6.3 Return types
+- return a reference type
+    ```
+    const string &shorterString(const string &s1, const string &s2){
+    	return s1.size() <= s2.size() ? s1 : s2;
+    }
+    ```
+- Never return a reference or pointer to a local object
+- return a vector
+    ```
+    vector<string> process(){
+    	return {"a", "b", "c"};
+    }
+    ```
+- The main function is allowed to terminate without a return (return 0).
+- the `cstdlib` header defines two preprocessor variables
+    ```
+    return EXIT_FAILURE;
+    return EXIT_SUCCESS;
+    ```
+- returning a pointer to an array
+    ```
+    typedef int arrT[10];
+    using arrT=int[10];		// equivalent
+    arrT *func(int i);
+    int (*func(int i))[10]; 	// for declaration
+    auto func(int i) -> int(*)[10]; 	//new standard for declaration
+    ```
+
+### 6.4 Overloaded functions
+- 
+
 
