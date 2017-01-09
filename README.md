@@ -553,12 +553,12 @@ cout << *p << endl;
 ++p;
 ```
 - Member access operator
- ```
+```
 string s = "hello", *p = &s;
 auto n = s.size();
 n = (*p).size();
 n = p->size(); 	// equivalent to the above statement
- ```
+```
 - Conditional operator
     ```
     string finalgrade = (grade > 90) ? "fail" : "pass"
@@ -763,6 +763,111 @@ where `argc` is the argument count and `argv` is an array of pointers to C-style
     ```
 
 ### 6.4 Overloaded functions
-- 
+- defining overloaded functions
+    ```
+    record lookup(const Account&);
+    record lookup(const Phone&);
+    record lookup(const Name&);
+    ```
+- Overloading and const parameters: top-level consts are ignored, low-level consts are recorded.
+    ```
+    record lookup(const Account); 	// may drop const here
+    record lookup(const Account*);	// new function
+    ```
+- It is an error for two functions differs only in terms of their return types.
+- declare your functions globally, do not declare locally
 
+### 6.5 Special uses
+- default arguments
+    ```
+    typedef string::size_type sz;
+    string screen(sz ht = 24, sz wid = 80, char background = '*'); 	// defalty setup
+    ```
+- use `inline` and `constexpre`, instead of calling a function
+    ```
+	inline const string& shorterstring(const string&, const string&);
+	constexpr int new_sz() { return 42; }
+    ```
+- they are normally defined in header files.
+
+### 6.7 Pointers to functions
+- a pointer to a function
+    ```
+    bool (*pf)(const string&, const string&);
+    ```
+- initialization
+    ```
+    pf = lengthcompare;
+    pf = &lengthcompare;
+    ```
+- call
+    ```
+    bool b1 = pf("hello","good");
+    ```
+
+## Chapter 7 Classes
+### 7.1 Revised Sales_data class
+```
+struct Sales_data{
+	std::string isbn() const { return bookNo; }
+	Sales_data& combine(const Sales_data&);
+	double avg_price() const;
+	// below old stuff
+	std::string bookNo;
+	unsingned units_sold = 0;
+	double revenue = 0.0;
+}
+Sales_data add(const Sales_data&, const Sales_data&);
+std::ostream &print(std::ostream&, const Sales_data&);
+std::istream &read(std::istream&, const Sales_data&);
+```
+Code analysis:
+- `bookNo` = `this->bookNo`, where `this` refers to a pointer of the current class.
+- By default, `this` is a `const` pointer to the nonconst class type.
+- `const{ return bookNo; }` makes `this` a pointer to `const`. Such memeber functions are called *constant member functions*.
+- We declare three functions in `struct` and their definitions could be outside the class body. But the member's definition must match its declaration. We also need to use the prefix 
+    ```
+    Sales_data::
+    ```
+For example, 
+```
+double Sales_data::avg_price() {
+	return (units_sold) ? revenue/units_sold : 0;
+}
+```
+- the combine function
+    ```
+    Sales_data& Sales_data::combine(const Sales_data& rhs){
+	units_sold += rhs.units_sold;
+	revenue += rhs.revenue;
+	return *this;
+    }
+    ```
+- the `read` function
+    ```
+    istream &read(istream &is, Sales_data &item){
+    	double price = 0;
+	is >> item.bookNo >> item.units_sold >> price;
+	item.revenue = price * item.units_sold;
+	return is;
+    }
+    ```
+Remark: not very sure the role of `is` or `os` below.
+- the `print` function
+```
+    ostream &print(ostream &os, const Sales_data &item){
+    	os << item.isbn() << " " << item.units_sold << " " << item.revenue << " " << item.avg_price();
+	return os;
+    }
+```
+
+Remark: here we minimize the format without newline.
+- the `add` function
+    ```
+    Sales_data add(const Sales_data& item1, const Sales_data& item 2){
+    	Sales_data sum = item1;
+	sum += item2;
+	return sum;
+    }
+    ```
 
