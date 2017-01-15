@@ -819,7 +819,7 @@ struct Sales_data{
 }
 Sales_data add(const Sales_data&, const Sales_data&);
 std::ostream &print(std::ostream&, const Sales_data&);
-std::istream &read(std::istream&, const Sales_data&);
+std::istream &read(std::istream&, Sales_data&);
 ```
 Code analysis:
 - `bookNo` = `this->bookNo`, where `this` refers to a pointer of the current class.
@@ -870,4 +870,176 @@ Remark: here we minimize the format without newline.
 	return sum;
     }
     ```
+### Constructors
+- Constructors give us a way to initialize the class. The compiler generates a default constructor only if a class declares no constructors.
+- Sales_data class code:
+```
+struct Sales_data{
+	// constructors added
+	Sales_data() = default;
+	Sales_data(const std::string &s): bookNo(s) {  }
+	Sales_data(const std::string &s, unsigned n, double p): bookNo(s), units_sold(n), revenue(p*n) {  }
+	Sales_data(std::istream &);
+	// other members as before
+	std::string isbn() const { return bookNo; }
+	Sales_data& combine(const Sales_data&);
+	double avg_price() const;
+	std::string bookNo;
+	unsigned units_sold = 0;
+	double revenue = 0.0;
+};
+```
+- defining a constructor outside the class body
+```
+Sales_data::Sales_data(std::istream &is){
+	read(is, *this);
+}
+```
 
+### 7.2 Access control and encapsulation
+- In C++, we use `access specifiers` to enforce encapsulation:
+(1). Members defined after a `public` specifier are accessible to all parts of the program. The public members define the interface to the class.
+(2). Members defined after a `private` specifier are accessible to the member functions of the class but not accessible to code that uses the class. The `private` sections encapsulate the implementation.
+(3). A class can allow another class or function to access its nonpublic members by making that class or function a `friend`.
+```
+struct Sales_data{
+friend:
+	friend Sales_data add(const Sales_data&, const Sales_data&);
+	friend std::ostream &print(std::ostream&, const Sales_data&);
+	friend std::istream &read(std::istream&, Sales_data&);
+public:
+	// constructors added
+	Sales_data() = default;
+	Sales_data(const std::string &s): bookNo(s) {  }
+	Sales_data(const std::string &s, unsigned n, double p): bookNo(s), units_sold(n), revenue(p*n) {  }
+	Sales_data(std::istream &);
+	// other members as before
+	std::string isbn() const { return bookNo; }
+	Sales_data& combine(const Sales_data&);
+private:
+	double avg_price() const;
+	std::string bookNo;
+	unsigned units_sold = 0;
+	double revenue = 0.0;
+};
+	Sales_data add(const Sales_data&, const Sales_data&);
+	std::ostream &print(std::ostream&, const Sales_data&);
+	std::istream &read(std::istream&, Sales_data&);
+```
+- Declare each friend in the same header as the class itself.
+- Ex 7.22 
+```
+struct Person{
+friend:
+	friend std::istream &read( std::istream&, Person& );
+	friend std::ostream &print( std::ostream&, const Person& );
+pubilic:
+	Person() = default;
+	Person(const std::string &s, const std::string& a): name(s), address(a) {  }
+	Person(std::istream& is){ read(is, *this); }
+	std::string getName() const { return name; }
+	std::string getAddress() const { return address; }
+private:
+	std::string name;
+	std::string address;
+};
+std::istream& read( std::istream& is, Person& p ){
+	is >> p.name >> p.address;
+	return is;	
+}
+std::ostream& print( std::ostream& os, const Person& p ){
+	os << p.name << " " << p.address;
+	return os;
+}
+```
+
+### 7.3 Additional class features
+- Code for `screen` class
+```
+class Screen {
+public:
+	typedef std::string::size_type pos;
+	Screen () = default;
+	Screen (pos ht, pos wd, char c): height(ht), width(wd), contents(ht*wd, c) {  }
+	Screen (pos ht, pos wd, string s): height(ht), width(wd), contents(s) {  }
+	char get () const { return contents[ cursor ]; }
+	inline char get ( pos ht, pos wd ) const;
+	Screen &move( pos r, pos c );
+	Screen &set(char);
+	Screen &set( pos r, pos c, char );
+	Screen &display(std::ostream &os) { do_display(os); return *this; }
+	const Screen &display(std::ostream &os) const { do_display(os); return *this; }
+private:
+	pos cursor = 0;
+	pos height = 0, width = 0;
+	std::string contents;
+	void do_display(std::ostream &os) const{ os << contents; }
+};
+inline
+char Screen::get ( pos r, pos c ) const{ 
+	pos row = r * width;
+	return contents[row+c];
+}
+Screen &Screen::move( pos r, pos c ){
+	pos row = r * width;
+	cursor = row + c;
+	return *this;
+}
+Screen &Screen::set( char c ){
+	contents[cursor] = c;
+	return *this;
+}
+Screen &Screen::set( pos r, pos c, char ch ){
+	contents[r*width+c] = ch;
+	return *this; 
+}
+```
+- Ex 7.27
+```
+#include<iostream>
+#include<string>
+class Screen {
+public:
+	typedef std::string::size_type pos;
+	Screen () = default;
+	Screen (pos ht, pos wd, char c): height(ht), width(wd), contents(ht*wd, c) {  }
+	Screen (pos ht, pos wd, std::string s): height(ht), width(wd), contents(s) {  }
+	char get () const { return contents[ cursor ]; }
+	inline char get ( pos ht, pos wd ) const;
+	Screen &move( pos r, pos c );
+	Screen &set(char);
+	Screen &set( pos r, pos c, char );
+	Screen &display(std::ostream &os) { do_display(os); return *this; }
+	const Screen &display(std::ostream &os) const { do_display(os); return *this; }
+private:
+	pos cursor = 0;
+	pos height = 0, width = 0;
+	std::string contents;
+	void do_display(std::ostream &os) const{ os << contents; }
+};
+inline
+char Screen::get ( pos r, pos c ) const{ 
+	pos row = r * width;
+	return contents[row+c];
+}
+Screen &Screen::move( pos r, pos c ){
+	pos row = r * width;
+	cursor = row + c;
+	return *this;
+}
+Screen &Screen::set( char c ){
+	contents[cursor] = c;
+	return *this;
+}
+Screen &Screen::set( pos r, pos c, char ch ){
+	contents[r*width+c] = ch;
+	return *this; 
+}
+int main(){
+	Screen myScreen(5,5,'d');
+	myScreen.move(4,0).set('i').display(std::cout);
+	std::cout << "\n";
+	myScreen.display(std::cout);
+	return 0;
+}
+```
