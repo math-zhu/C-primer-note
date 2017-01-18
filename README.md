@@ -560,37 +560,37 @@ n = (*p).size();
 n = p->size(); 	// equivalent to the above statement
 ```
 - Conditional operator
-    ```
+```
     string finalgrade = (grade > 90) ? "fail" : "pass"
-    ```
+```
 when `cout`, the whole statement needs ().
 - explicit conversion
-    ```
+```
     int i,j;
     double slope = static_cast<double>(j)/i;
     void *p = &d;
     double *dp = static_cast<double*>(p);
-    ```
+```
 
 ## Chapter 5 
 - null statement
-    ```
+```
     ;
-    ```
+```
 - Conditional statement
-    ```
+```
     if (...){
     }
     else if (){...}
     else 
-    ```
+```
 - switch
-    ```
+```
     switch () {
     case A: ...;break;
     case B: ...;break;
     }
-    ```
+```
 - Do not forget `break` in switch
 - use `default:` label for all other cases
 - do-while statement ends with `;`
@@ -598,10 +598,10 @@ when `cout`, the whole statement needs ().
 } while ();
 ```
 - `throw` statement
-    ```
+```
     if (item1.isbn() != item2.isbn())
     	throw runtime_error("Data must refer to the same isbn")
-    ```
+``
  here `runtime_error` lives in `stdexcept` header
 - `try` statement for exceptional case
 ```
@@ -636,174 +636,173 @@ while (cin >> item1 >> item2) {
 - functions can be overloaded, meaning that the same name may refer to different functions.
 - *arguments* are the initializers for a function's parameters. The first argument initializes the first parameter, so on.
 - The type of each argument must match the corresponding parameter. But we allow certain conversion of types same as when initializing.
-    ```
+```
     factorial(3.14); // same as factorial(3)
-    ```
+```
 - Parameters and variables defined inside a function body are referred as "local variables".
 - Parameters are automatic objects. Storage for parameters is allocated when the function begins. Parameters are defined in the scope of the function body. Hence they are destroyed when the function terminates.
 - Local static object: a local variable whose lifetime continues across calls to the function. 
-    ```
+```
     void f(){
     static int a;
     }
-    ```
+```
 - function declaration: we can use header files for function declarations.
-    ```
+```
     void f();
-    ```
+```
 - separate compilation: TBA
 
 ### 6.2 Argument passing
 - passing arguments by value: when we initialize a nonreference type variable, the value of the initializer is copied. Change made to the variable have no effect on the argument.
 - Pointer parameters
-    ```
+```
     void reset(int *p){
     	*ip = 0; 	// pointer's pointed value changes
 	ip =0;		// ip has no effect on argument
     }
-    ```
+```
 But in C++, usually we use the reference type instead of pointers.
 - passing arguments by reference 
-    ```
+```
     void reset(int &i){
     	i = 0;
     }
-    ```
+```
 - It can be inefficient to copy objects of large class types. So we use reference for parameters of functions.
 - Reference parameters that are not changed inside a function should be references to `const`.
 - When copy an argument to initialize a parameter, top level `const` are ignored. Just like the initialization process.
 - use reference to `const` when possible
 - array parameters
-    ```
+```
     void print(const int*);
     void print(const int[]);
     void print(const int[10]);  	// for above for function declarations
     int i = 0, j[2] = { 0,1 };
     print(&i);
     print(j);				// both ok if the parameter is int *
-    ```
+```
 - print an array: two ways via functions
-    ```
+```
     void print(const char *cp){
     	if (cp)
 		while (*cp)
 			cout << *cp++;
     }
-    ```
-    ```
+```
+```
     void print(const int *beg, const int *end){
     	while (beg != end)
 		cout << *beg++ << endl;
     }
-    ```
+```
 - array reference parameter
-    ```
+```
     void print(int (&arr)[10]){		// (&arr) is a must, we cannot have an array of 10 references
     	for (auto i : arr)
 		cout << elem << endl;
     }
-    ```
+```
 - multidimensional array as parameter
-    ```
+```
     void print (int (*parr)[10], int Rowsize){...}
-    ```
+```
 - `main` function
-    ```
+```
     int main(int argc, char *argv[]){...}
-    ```
+```
 where `argc` is the argument count and `argv` is an array of pointers to C-style character strings. We may use 
-
-    ```
+```
     int main(int argc, char **argv){...}
-    ```
+```
 - `argv[0]` is the program's name and optional arguments begin in `argv[1]`
 - Functions with varying parameters: use `initializer_list`
-    ```
-    initializer_list<string> ls;
+```
+	initializer_list<string> ls;
     initializer_list<int> li;
     void error_meg(initializer_list<string> il){
     	for (auto beg = il.begin(); beg != il.end(); ++beg)
 		cout << *beg << " ";
 	cout << endl;
     }
-    ```
+```
 - When we pass a sequence of values to an `initializer_list` parameter, we must enclose the sequence in curly braces
-    ```
+```
     if (expected != acutal)
     	error_msg({"functionX", expected, actual});
-    ```
+```
 
 ### 6.3 Return types
 - return a reference type
-    ```
+```
     const string &shorterString(const string &s1, const string &s2){
     	return s1.size() <= s2.size() ? s1 : s2;
     }
-    ```
+```
 - Never return a reference or pointer to a local object
 - return a vector
-    ```
+```
     vector<string> process(){
     	return {"a", "b", "c"};
     }
-    ```
+```
 - The main function is allowed to terminate without a return (return 0).
 - the `cstdlib` header defines two preprocessor variables
-    ```
+```
     return EXIT_FAILURE;
     return EXIT_SUCCESS;
-    ```
+```
 - returning a pointer to an array
-    ```
+```
     typedef int arrT[10];
     using arrT=int[10];		// equivalent
     arrT *func(int i);
     int (*func(int i))[10]; 	// for declaration
     auto func(int i) -> int(*)[10]; 	//new standard for declaration
-    ```
+```
 
 ### 6.4 Overloaded functions
 - defining overloaded functions
-    ```
+```
     record lookup(const Account&);
     record lookup(const Phone&);
     record lookup(const Name&);
-    ```
+```
 - Overloading and const parameters: top-level consts are ignored, low-level consts are recorded.
-    ```
+```
     record lookup(const Account); 	// may drop const here
     record lookup(const Account*);	// new function
-    ```
+```
 - It is an error for two functions differs only in terms of their return types.
 - declare your functions globally, do not declare locally
 
 ### 6.5 Special uses
 - default arguments
-    ```
+```
     typedef string::size_type sz;
     string screen(sz ht = 24, sz wid = 80, char background = '*'); 	// defalty setup
-    ```
+```
 - use `inline` and `constexpre`, instead of calling a function
-    ```
+```
 	inline const string& shorterstring(const string&, const string&);
 	constexpr int new_sz() { return 42; }
-    ```
+```
 - they are normally defined in header files.
 
 ### 6.7 Pointers to functions
 - a pointer to a function
-    ```
+```
     bool (*pf)(const string&, const string&);
-    ```
+```
 - initialization
-    ```
+```
     pf = lengthcompare;
     pf = &lengthcompare;
-    ```
+```
 - call
-    ```
+```
     bool b1 = pf("hello","good");
-    ```
+```
 
 ## Chapter 7 Classes
 ### 7.1 Revised Sales_data class
@@ -826,9 +825,9 @@ Code analysis:
 - By default, `this` is a `const` pointer to the nonconst class type.
 - `const{ return bookNo; }` makes `this` a pointer to `const`. Such memeber functions are called *constant member functions*.
 - We declare three functions in `struct` and their definitions could be outside the class body. But the member's definition must match its declaration. We also need to use the prefix 
-    ```
+```
     Sales_data::
-    ```
+```
 For example, 
 ```
 double Sales_data::avg_price() {
@@ -836,22 +835,22 @@ double Sales_data::avg_price() {
 }
 ```
 - the combine function
-    ```
+```
     Sales_data& Sales_data::combine(const Sales_data& rhs){
 	units_sold += rhs.units_sold;
 	revenue += rhs.revenue;
 	return *this;
     }
-    ```
+```
 - the `read` function
-    ```
+```
     istream &read(istream &is, Sales_data &item){
     	double price = 0;
 	is >> item.bookNo >> item.units_sold >> price;
 	item.revenue = price * item.units_sold;
 	return is;
     }
-    ```
+```
 Remark: not very sure the role of `is` or `os` below.
 - the `print` function
 ```
@@ -863,13 +862,13 @@ Remark: not very sure the role of `is` or `os` below.
 
 Remark: here we minimize the format without newline.
 - the `add` function
-    ```
+```
     Sales_data add(const Sales_data& item1, const Sales_data& item 2){
     	Sales_data sum = item1;
 	sum += item2;
 	return sum;
     }
-    ```
+```
 ### Constructors
 - Constructors give us a way to initialize the class. The compiler generates a default constructor only if a class declares no constructors.
 - Sales_data class code:
